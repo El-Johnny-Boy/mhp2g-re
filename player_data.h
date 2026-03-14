@@ -1,8 +1,6 @@
 #include <stdint.h>
 #include "types.h"
-
-#define ITEM_COUNT 1260
-#define ITEM_FLAG_WORDS ((ITEM_COUNT + 31) / 32)
+#include "game_constants.h"
 
 /*
 Notable memory addresses :
@@ -15,9 +13,9 @@ Notable memory addresses :
 */
 
 
-enum EquipTypeID: u8 {
+enum EquipmentTypeID {
   Leggings = 0x00,
-  Helmlet = 0x01,
+  Helmet = 0x01,
   Plate = 0x02,
   Gauntlets = 0x03,
   Waist = 0x04,
@@ -32,9 +30,9 @@ typedef struct {
 typedef struct
 {
     u8 rarity; //? Maybe, need to crosscheck with other stuff
-    EquipTypeID equipTypeID;
-    u32 equipementID; 
-    u16 unknown3; //
+    u8 equipmentTypeID; //stocked as u8, cast as EquipmentTypeID in usage. Maybe not an enum, but it seems to be one.
+    u32 equipmentID; 
+    u16 unknown1; //
 
 } EquipmentSlotData; //0xC bytes
 
@@ -52,7 +50,7 @@ typedef struct
     //0x10
     u8 unkown1[0xC]; //empty in new save. Maybe HR, padding ?
     //0x1C
-    u8 unknown2[0x4]; //FF 67 9A E4 in two different saves.
+    u32 unknown2; //FF 67 9A E4 in two different saves.
     //0x20
     PlayerEquippedGear equippedGear;
     //0x68
