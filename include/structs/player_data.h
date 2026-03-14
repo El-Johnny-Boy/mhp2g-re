@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include "types.h"
 #include "game_constants.h"
+#include "structs/equipment.h"
+#include "structs/item_slot.h"
 
 /*
 Notable memory addresses :
@@ -13,34 +15,10 @@ Notable memory addresses :
 */
 
 
-enum EquipmentTypeID {
-  Leggings = 0x00,
-  Helmet = 0x01,
-  Plate = 0x02,
-  Gauntlets = 0x03,
-  Waist = 0x04,
-  BlademasterWeapon = 0x05,
-  GunnerWeapon = 0x06,
-};
-
 typedef struct {
     u16 chars[8]; // 0x10 bytes
 } HunterName;
 
-typedef struct
-{
-    u8 rarity; //? Maybe, need to crosscheck with other stuff
-    u8 equipmentTypeID; //stocked as u8, cast as EquipmentTypeID in usage. Maybe not an enum, but it seems to be one.
-    u32 equipmentID; 
-    u16 unknown1; //
-
-} EquipmentSlotData; //0xC bytes
-
-typedef struct
-{
-    EquipmentSlotData weapon; // 0xC bytes
-    EquipmentSlotData armor[5]; //0x3C bytes
-} PlayerEquippedGear;
 
 
 typedef struct 
@@ -54,9 +32,19 @@ typedef struct
     //0x20
     PlayerEquippedGear equippedGear;
     //0x68
-    u8 unkown3[0x48];
+    u8 unkown3[0x72];
     //B0
-    u8 unknown4[0x6A690];
+    EquipmentSlotData equipmentChest[1000]; //0xC bytes each, 1000 slots, 0x2ee0 bytes total
+    //0x2f90
+    ItemSlotData itemChest[1000]; //0x4 bytes each, 1000 slots, 0xfa0 bytes total
+    //0x3f30
+    ItemSlotData inventory[24]; //0x4 bytes each, 24 slots, 0x60 bytes total
+    //0x3f90
+    u8 unknown3[0x40];
+    //0x3fd0
+    u8 timePlayed[0x8]; //in seconds, stored as a 64 bit integer.
+    //0x3fd8
+    u8 unknown4[0x667DC];
     //0x6A7B4
     // item owned bitset
     u32 itemOwnedFlags[ITEM_FLAG_WORDS];

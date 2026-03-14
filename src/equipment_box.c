@@ -34,7 +34,7 @@ PlayerData *getPlayerData(void) {
 }
 
 //08850d9c
-int getBoxPageCount() {
+int getChestPageCount() {
     bool hasItem;
     u32 boxExpansionItemID;
     u32 pageCount; 
@@ -51,6 +51,6 @@ int getBoxPageCount() {
     return pageCount;
 }
 
-int getBoxSlotCount() {
-    return getBoxPageCount() * 100; //100 slots per page, hardcoded.
+int getChestSlotCount() {
+    return getChestPageCount() * 100; //100 slots per page, hardcoded.
 }
