@@ -1,7 +1,6 @@
 # Memory dump at address 0899a23b
 
-Trying to find a pattern to identify the structure. Hex dumped from memory, names matched with a script and a MHFU document, might be inacurate.
-Edit : it is, in fact, inaccurate.
+Trying to find a pattern to identify the structure. Hex dumped from memory, names matched with a python script.
 
 | ID (dec) |  ID (hex)  |                                 Hex Data                                  |       Item Name       |
 |----------|------------|---------------------------------------------------------------------------|-----------------------|
