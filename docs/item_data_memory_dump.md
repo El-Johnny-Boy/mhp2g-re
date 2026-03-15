@@ -1,6 +1,7 @@
 # Memory dump at address 0899a23b
 
 Trying to find a pattern to identify the structure. Hex dumped from memory, names matched with a python script.
+Almost everything is identified (see item_data.h), but there are some blurry areas.
 
 | ID (dec) |  ID (hex)  |                                 Hex Data                                  |       Item Name       |
 |----------|------------|---------------------------------------------------------------------------|-----------------------|
