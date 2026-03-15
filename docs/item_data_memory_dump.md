@@ -2,7 +2,7 @@
 
 Trying to find a pattern to identify the structure
 
-0| ID (dec) | ID (hex) |        Hex Data                                                             |       Item Name       |
+| ID (dec) | ID (hex)  |        Hex Data                                                           |       Item Name       |
 |----------|------------|---------------------------------------------------------------------------|-----------------------|
 |     1    |   0x001    | `00 00 03 01 00 24 0A 00 00 00 00 00 E8 03 00 00 64 00 00 00 00 00 00 00` | Book of Combos 1 |
 |     2    |   0x002    | `00 00 03 01 00 24 0A 00 00 00 00 00 D0 07 00 00 C8 00 00 00 00 00 00 00` | Book of Combos 2 |
