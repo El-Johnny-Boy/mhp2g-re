@@ -51,6 +51,37 @@ int getChestPageCount() {
     return pageCount;
 }
 
+//08850e08
 int getChestSlotCount() {
     return getChestPageCount() * 100; //100 slots per page, hardcoded.
+}
+
+//0885c334
+//Again called with DAT_08A5DD20 as first parameter, but it's not used.
+
+int getTotalItemCount(u32 itemID) {
+    u16 slotCount = getChestSlotCount();
+    int total = 0;
+    int slotIndex = 0;
+
+    ItemSlotData *slot = gPlayerData->itemChest;
+
+    for (int i = 0; i < slotCount; i++, slot++) {
+         if (slot->itemID == itemID) {
+            total += slot->quantity;
+            //here there is a check to against the byte at &DAT_0899a23b[itemID * 0x18]
+            //at tis adress there is a pointer 0885aae4
+            //then 8 bytes later there is another pointer 0885ac84
+        }
+    }
+
+    while (slotIndex < slotCount) {
+        if (slot->itemID == itemID) {
+            total += slot->quantity;
+        }
+        slot++;
+        slotIndex++;
+    }
+
+    return total;
 }
