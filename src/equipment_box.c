@@ -78,6 +78,7 @@ int getTotalItemCount(u32 itemID) {
     
     return total;
 }
+
 //08850668
 //No references, called by pointer ?
 u16 writeDataOnFirstEmptyEquipmentChestSlot(PlayerData* playerData, u8 equipmentTypeID, u16 equipmentID, u16 unknown) {
