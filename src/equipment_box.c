@@ -58,7 +58,6 @@ int getChestSlotCount() {
 
 //0885c334
 //Again called with DAT_08A5DD20 as first parameter, but it's not used.
-
 int getTotalItemCount(u32 itemID) {
     u16 slotCount = getChestSlotCount();
     int total = 0;
@@ -66,22 +65,16 @@ int getTotalItemCount(u32 itemID) {
 
     ItemSlotData *slot = gPlayerData->itemChest;
 
+    //Checks each chest items against an item table at address 0x0899a23b
     for (int i = 0; i < slotCount; i++, slot++) {
-         if (slot->itemID == itemID) {
-            total += slot->quantity;
-            //here there is a check to against the byte at &DAT_0899a23b[itemID * 0x18]
-            //at tis adress there is a pointer 0885aae4
-            //then 8 bytes later there is another pointer 0885ac84
+        //If the item isn't stackable, return 999.
+        if (gItemTable[itemID & 0xFFFF].maxInventoryStack == 0xFF) {
+            return 999;
         }
-    }
-
-    while (slotIndex < slotCount) {
         if (slot->itemID == itemID) {
             total += slot->quantity;
         }
-        slot++;
-        slotIndex++;
     }
-
+    
     return total;
 }
