@@ -56,29 +56,6 @@ int getChestSlotCount() {
     return getChestPageCount() * 100; //100 slots per page, hardcoded.
 }
 
-//0885c334
-//Again called with DAT_08A5DD20 as first parameter, but it's not used.
-int getTotalItemCount(u32 itemID) {
-    u16 slotCount = getChestSlotCount();
-    int total = 0;
-    int slotIndex = 0;
-
-    ItemSlotData *slot = gPlayerData->itemChest;
-
-    //Checks each chest items against an item table at address 0x0899a23b
-    for (u16 i = 0; i < slotCount; i++, slot++) {
-        //If the item isn't stackable, return 999.
-        if (gItemTable[itemID & 0xFFFF].maxInventoryStack == 0xFF) {
-            return 999;
-        }
-        if (slot->itemID == itemID) {
-            total += slot->quantity;
-        }
-    }
-    
-    return total;
-}
-
 //08850668
 //No references, called by pointer ?
 u16 writeDataOnFirstEmptyEquipmentChestSlot(PlayerData* playerData, u8 equipmentTypeID, u16 equipmentID, u16 unknown) {
@@ -104,4 +81,71 @@ u16 writeDataOnFirstEmptyEquipmentChestSlot(PlayerData* playerData, u8 equipment
     }
 
     return 0xFFFF;
+}
+
+
+//0885c288
+// Returns 999 if non stackable
+int getFirstItemSlotQuantity(u16 itemID) {
+    short slotCount = getBoxSlotCount();
+    ItemSlotData *slot = gPlayerData->itemChest;
+
+    for (int i = 0; i < slotCount; i++, slot++) {
+        if (slot->itemID == itemID) {
+            if (gItemTable[itemID].maxInventoryStack == 0xFF) {
+                return 999;
+            }
+            return slot->quantity;
+        }
+    }
+    return 0;
+}
+
+//0885c334
+//Again called with DAT_08A5DD20 as first parameter, but it's not used.
+int getTotalItemCount(u32 itemID) {
+    u16 slotCount = getChestSlotCount();
+    int total = 0;
+    int slotIndex = 0;
+
+    ItemSlotData *slot = gPlayerData->itemChest;
+
+    //Checks each chest items against an item table at address 0x0899a23b
+    for (u16 i = 0; i < slotCount; i++, slot++) {
+        //If the item isn't stackable, return 999.
+        if (gItemTable[itemID & 0xFFFF].maxInventoryStack == 0xFF) {
+            return 999;
+        }
+        if (slot->itemID == itemID) {
+            total += slot->quantity;
+        }
+    }
+    
+    return total;
+}
+
+
+//0885c3d4
+//Returns the remaining capacity for an item in the item chest. Returns 0 for non stackable items.
+int getItemChestRemainingCapacity(u16 itemID) {
+    itemID = itemID & 0xFFFF;
+
+    if (itemID == 0 || gItemTable[itemID].maxInventoryStack == 0xFF) {
+        return 0;
+    }
+
+    short SlotCount = getBoxSlotCount();
+    ItemSlotData *slot = gPlayerData->itemChest;
+    int total = 0;
+
+    for (int i = 0; i < SlotCount; i++, slot++) {
+        if (slot->itemID == itemID) {
+            total += 99 - slot->quantity;
+        }
+        else if (slot->itemID == 0) {
+            total += 99;
+        }
+    }
+
+    return total;
 }
