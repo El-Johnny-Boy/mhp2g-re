@@ -3,7 +3,7 @@
 ## Global pointers - Static addresses in the binary
 | Address      | Name          | Points towards | Notes                                          |
 |--------------|---------------|----------------|------------------------------------------------|
-| 0x089C7508   | gPlayerBlock  | 0x099959A0     | player block, player data starts at +0x4A0     |
+| 0x089C7508   | gPlayerBlock  | 0x099959A0     | player block, player data starts at +0x4A0 (0x9995E40)     |
 | 0x08A5DD20   | gGameContext  | 0x09A024D8     | general context ? passed in numerous functions |
 
 ## Player block layout (base = *gPlayerBlock)

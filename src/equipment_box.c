@@ -66,7 +66,7 @@ int getTotalItemCount(u32 itemID) {
     ItemSlotData *slot = gPlayerData->itemChest;
 
     //Checks each chest items against an item table at address 0x0899a23b
-    for (int i = 0; i < slotCount; i++, slot++) {
+    for (u16 i = 0; i < slotCount; i++, slot++) {
         //If the item isn't stackable, return 999.
         if (gItemTable[itemID & 0xFFFF].maxInventoryStack == 0xFF) {
             return 999;
@@ -77,4 +77,30 @@ int getTotalItemCount(u32 itemID) {
     }
     
     return total;
+}
+//08850668
+//No references, called by pointer ?
+u16 writeDataOnFirstEmptyEquipmentChestSlot(PlayerData* playerData, u8 equipmentTypeID, u16 equipmentID, u16 unknown) {
+    //Proof against wrong data ?
+    if (equipmentTypeID >= 7) {
+        return 0xFFFF;
+    }
+
+    u16 slotCount = getChestSlotCount();
+    EquipmentSlotData *slot = playerData->equipmentChest;
+
+    for (u16 i = 0; i < slotCount; i++, slot++) {
+        if (slot->occupied == 0) {
+            slot->occupied = 1;
+            slot->equipmentTypeID = equipmentTypeID;
+            slot->equipmentID = equipmentID;
+            slot->unknown1 = unknown;
+            slot->unknown2 = 0;
+            slot->unknown3 = 0;
+            slot->unknown4 = 0;
+            return i;
+        }
+    }
+
+    return 0xFFFF;
 }
