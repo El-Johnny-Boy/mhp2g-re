@@ -98,9 +98,26 @@ int getFirstEmptyEquipmentSlotIndex(PlayerData* playerData) {
     return 0xFFFF;
 }
 
+//0885bd04
+int getSlotIndexByID(u16 itemID) {
+    ItemSlotData *slot = gPlayerData->itemChest;
+    
+    if (itemID != 0xFFFF) {
+        u32 slotCount = getChestSlotCount();
+        
+        for (u32 i = 0; i < slotCount; i++, slot++) {
+            if (slot->itemID == itemID && slot->quantity > 0) {
+                return i & 0xFFFF;
+            }
+        }
+    }
+
+    return 0xFFFF;
+}
+
 //0885c288
 // Returns 999 if non stackable
-int getFirstItemSlotQuantity(u16 itemID) {
+int getItemFirstSlotQuantity(u16 itemID) {
     short slotCount = getBoxSlotCount();
     ItemSlotData *slot = gPlayerData->itemChest;
 
@@ -240,4 +257,10 @@ int removeItemQuantityFromChest(u16 itemID, short quantityToRemove) {
     }
 
     return remainingQuantity;
+}
+
+int removeItemQuantityFromChessAt(u16 itemID, short quantityToRemove, u16 targetSlotIndex) {
+    ItemSlotData *slot = &gPlayerData->itemChest[targetSlotIndex];
+
+    return quantityToRemove;
 }

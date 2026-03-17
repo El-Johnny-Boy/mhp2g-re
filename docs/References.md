@@ -1,17 +1,17 @@
 # References
 getChestPageCount :
-    - getChestSlotCount
-    - ???_clampBoxSlotIndex$
-    - FUN_089042ec
+    - getChestSlotCount [Done]
+    - ???_clampBoxSlotIndex [ToVerify]
+    - FUN_089042ec 
 
 getChestSlotCount :
-    - getFirstEmptySlotIndex
-    - writeDataOnFirstEmptyEquipmentChestSlot
+    - getFirstEmptySlotIndex [Done]
+    - writeDataOnFirstEmptyEquipmentChestSlot [Done]
     - FUN_088539e4
-    - removeItemQuantityFromChest
+    - removeItemQuantityFromChest [Done]
     - FUN_0885baf8
-    - findSlotIndexbyID
-    - getFirstItemSlotQuantity
-    - getTotalItemCount
-    - getItemChestRemainingCapacity
-    - getMaximumQuantityThatCanBeAdded
+    - findSlotIndexbyID [Done]
+    - getFirstItemSlotQuantity [Done]
+    - getTotalItemCount [Done]
+    - getItemChestRemainingCapacity [Done]
+    - getMaximumQuantityThatCanBeAdded [Done]
