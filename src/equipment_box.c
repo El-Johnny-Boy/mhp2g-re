@@ -84,6 +84,20 @@ u16 writeDataOnFirstEmptyEquipmentChestSlot(PlayerData* playerData, u8 equipment
 }
 
 
+//088505e8
+int getFirstEmptyEquipmentSlotIndex(PlayerData* playerData) {
+    u16 slotCount = getChestSlotCount();
+    EquipmentSlotData *slot = playerData->equipmentChest;
+
+    for (u16 i = 0; i < slotCount; i++, slot++) {
+        if (slot->occupied == 0) {
+            return i;
+        }
+    }
+
+    return 0xFFFF;
+}
+
 //0885c288
 // Returns 999 if non stackable
 int getFirstItemSlotQuantity(u16 itemID) {
@@ -148,4 +162,82 @@ int getItemChestRemainingCapacity(u16 itemID) {
     }
 
     return total;
+}
+
+//0885c490
+//Returns the maximum quantity of a specific item that can be added to the item chest, taking into account the current quantity.
+int getMaximumQuantityThatCanBeAdded(u16 itemID) {
+    itemID = itemID & 0xFFFF;
+
+    if (itemID == 0) {
+        return 0;
+    }
+
+    short slotCount = getBoxSlotCount();
+    u32 maxStack = gItemTable[itemID].maxInventoryStack;
+
+    if (maxStack == 0xFF) {
+        return 99;
+    }
+
+    ItemSlotData *slot = gPlayerData->itemChest;
+    u32 remaining = maxStack;
+
+    for (int i = 0; i < slotCount; i++, slot++) {
+        if (slot->itemID == 0) {
+            return maxStack;
+        }
+        if (slot->itemID == itemID && maxStack != 0xFF) {
+            remaining -= maxStack - slot->quantity; 
+            if ((int)remaining < 1) {               
+                return maxStack;
+            }
+        }
+    }
+
+    return maxStack - remaining;
+}
+
+//0885b9d8
+int removeItemQuantityFromChest(u16 itemID, short quantityToRemove) {
+    ItemSlotData *slot = gPlayerData->itemChest;
+    u32 remainingQuantity = quantityToRemove;
+
+    if (quantityToRemove < 0) {
+        return 0;
+    }
+    else {
+        itemID = itemID & 0xFFFF;
+        
+        if (itemID == 0) {
+            return 0;
+        }
+        else if (gItemTable[itemID].maxInventoryStack == 0xFF) {
+            return 0;
+        }
+        else {
+            u32 slotCount = getBoxSlotCount();
+            
+            for (u32 i = 0; i < slotCount; i++, slot++) {
+                if (slot->itemID == itemID) {
+                    if (slot->quantity < remainingQuantity) {
+                        remainingQuantity = remainingQuantity - slot->quantity;
+                        slot->quantity = 0;
+                    }
+                    else {
+                        slot->quantity -= remainingQuantity;
+                        remainingQuantity = 0;
+                    }
+                    if (slot->quantity == 0) {
+                        slot->itemID = 0x0000;
+                    }
+                    if (remainingQuantity == 0) {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+
+    return remainingQuantity;
 }
