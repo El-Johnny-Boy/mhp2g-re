@@ -28,3 +28,4 @@ typedef struct
     EquipmentSlotData weapon; // 0xC bytes
     EquipmentSlotData armor[5]; //0x3C bytes
 } PlayerEquippedGear;
+

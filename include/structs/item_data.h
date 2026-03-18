@@ -24,6 +24,7 @@ typedef enum {
     COLOR_GREY = 0x0A,
 } Colors; //0x4 bytes, used in inventory and item chest, but not equipment chest.
 
+//0899a23b in RAM
 typedef struct {
     u8 category; //0x00 for items, 0x01 for carryable items (like eggs), 0x02 for ammunition, 0x03 for coatings.
     u8 usable; //0x00 not usable, 0x01 usable by the player, 0x02 usable by guns, 0x03 usable by bows.

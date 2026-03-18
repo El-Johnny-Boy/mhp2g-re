@@ -22,6 +22,15 @@ bool playerHasItem(PlayerData* playerData, u32 itemID) {
     
 }
 
+//08857c10
+void setItemFlag(PlayerData* playerData, u32 itemID) {
+    u32 itemID16 = itemID & 0xffff;
+    
+    u32* word = &playerData->itemOwnedFlags[itemID16 / ITEM_FLAG_BITS];
+    u32 mask = 1u << (itemID % ITEM_FLAG_BITS);
+    *word |= mask;
+}
+
 //0885c5c4
 /*Certainly a tailcall or a wrapper for playerHasItem, in Ghidra this function has 
 two parameters but the first one is ignored. First parameters is a u32 that contains the pointer of GameData.*/
