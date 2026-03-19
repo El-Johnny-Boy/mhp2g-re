@@ -269,7 +269,83 @@ int removeItemQuantityFromChest(u16 itemID, short quantityToRemove) {
 }
 
 int removeItemQuantityFromChessAt(u16 itemID, short quantityToRemove, u16 targetSlotIndex) {
-    ItemSlotData *slot = &gPlayerData->itemChest[targetSlotIndex];
+    
+    if (quantityToRemove < 0) {
+        return 0;
+    }
+    if (itemID == 0x0000) {
+        return 0;
+    }
+    if (gItemTable[itemID].maxInventoryStack == 0xFF) {
+        return 0;
+    }
 
+    ItemSlotData *itemChest = gPlayerData->itemChest;
+    u32 slotCount = getBoxSlotCount();
+    
+    //No slot has been targeted
+    if ((targetSlotIndex & 0xFFFF) == 0xFFFF) {
+
+        //Iterates the chest backward
+        for (u32 i = slotCount; i >= 0; i--) {
+            ItemSlotData *slot = &itemChest[i];
+
+            if (slot->itemID != itemID) {
+                continue;
+            }
+
+            //Temporary variable to hold the quantity
+            u16 quantityInSlot = slot->quantity;
+
+            //Insufficient, empty the slot and continue
+            if (quantityInSlot < quantityToRemove) {
+                quantityToRemove -= quantityInSlot;
+                slot->quantity = 0;
+            }
+            else {
+                slot->quantity -= quantityToRemove;
+                quantityToRemove = 0;
+            }
+            if (slot->quantity == 0) {
+                slot->itemID = 0x0000;
+            }
+            if (quantityToRemove == 0) {
+                return 0;
+            }
+        }
+    }
+    else {
+        ItemSlotData* slot = &itemChest[targetSlotIndex];
+
+        //If the slot is empty, we search globally
+        if (slot->quantity == 0) {
+            removeItemQuantityFromChessAt(itemID, quantityToRemove, 0xFFFF);
+        }
+        else if (slot->itemID == itemID) {
+            u16 quantityInSlot = slot->quantity;
+
+            if (quantityInSlot < quantityToRemove) {
+                quantityToRemove -= quantityInSlot;
+                slot->quantity = 0;
+            }
+            else {
+                slot->quantity -= quantityToRemove;
+                quantityToRemove = 0;
+            }
+            if (slot->quantity == 0) {
+                slot->itemID = 0x0000;
+            }
+            //If there is still some quantity to remove, we search globally
+            if (quantityToRemove > 0) {
+                quantityToRemove = removeItemQuantityFromChestAt(itemID, quantityToRemove, 0xFFFF);
+            }
+
+        }
+        //If the item in the slot isn't the target item, we search globally
+        else {
+            quantityToRemove = removeItemQuantityFromChestAt(itemID, quantityToRemove, 0xFFFF);
+        }
+    }
     return quantityToRemove;
 }
+
