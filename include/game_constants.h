@@ -1,3 +1,4 @@
 #define ITEM_COUNT 1260
 #define ITEM_FLAG_BITS 32
 #define ITEM_FLAG_WORDS ((ITEM_COUNT + 31) / 32)
+#define INVENTORY_SIZE 24

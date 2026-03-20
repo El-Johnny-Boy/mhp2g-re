@@ -20,7 +20,7 @@ typedef struct {
 } HunterName;
 
 
-
+//0x9995E40 in RAM
 typedef struct 
 {
     //0x00
@@ -32,21 +32,21 @@ typedef struct
     //0x20
     PlayerEquippedGear equippedGear;
     //0x68
-    u8 unkown3[0x72];
-    //B0
+    u8 unkown3[0x40];
+    //0xa8
     EquipmentSlotData equipmentChest[1000]; //0xC bytes each, 1000 slots, 0x2ee0 bytes total
-    //0x2f90
+    //0x2f88
     ItemSlotData itemChest[1000]; //0x4 bytes each, 1000 slots, 0xfa0 bytes total
-    //0x3f30
+    //0x3f28
     ItemSlotData inventory[24]; //0x4 bytes each, 24 slots, 0x60 bytes total
-    //0x3f90
+    //0x3f88
     u8 unknown3[0x40];
-    //0x3fd0
+    //0x3fc8
     u8 timePlayed[0x8]; //in seconds, stored as a 64 bit integer.
-    //0x3fd8
-    u8 unknown4[0x667DC];
-    //0x6A7B4
-    // item owned bitset
+    //0x3fd0
+    u8 unknown4[0x667e4];
+    //0x6a7b4
+    // item owned
     u32 itemOwnedFlags[ITEM_FLAG_WORDS];
 
 } PlayerData; //likely but might be something else

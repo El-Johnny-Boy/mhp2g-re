@@ -15,3 +15,9 @@ getChestSlotCount :
     - getTotalItemCount [Done]
     - getItemChestRemainingCapacity [Done]
     - getMaximumQuantityThatCanBeAdded [Done]
+
+getInventoryItemQuantity :
+    - FUN_0885e10c
+    - FUN_0885e0e4
+    - FUN_0885c794
+    - FUN_0883818c
