@@ -37,6 +37,6 @@ typedef struct {
     u16 unknown2; //0x03 for treasures and ruststones, 0x02 for carryables, rest is 0x00. Bitfield ?
     u32 buyPrice;
     u32 sellPrice;
-    u16 unknown8; //all 0x00, maybe padding.
+    u16 unknown3; //all 0x00, maybe padding.
     u16 decorationSkillID;
 } ItemData;
