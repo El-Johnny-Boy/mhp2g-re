@@ -268,6 +268,7 @@ int removeItemQuantityFromChest(u16 itemID, short quantityToRemove) {
     return remainingQuantity;
 }
 
+//0885baf8
 int removeItemQuantityFromChessAt(u16 itemID, short quantityToRemove, u16 targetSlotIndex) {
     
     if (quantityToRemove < 0) {
