@@ -9,7 +9,7 @@ getChestSlotCount :
     - writeDataOnFirstEmptyEquipmentChestSlot [Done]
     - FUN_088539e4
     - removeItemQuantityFromChest [Done]
-    - FUN_0885baf8
+    - removeItemQuantityFromChestAt [Done]
     - findSlotIndexbyID [Done]
     - getFirstItemSlotQuantity [Done]
     - getTotalItemCount [Done]
